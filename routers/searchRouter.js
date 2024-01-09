@@ -59,4 +59,43 @@ router.get("/get_sessions_by_votes", async (req, res) => {
     }
 })
 
+router.get("/get_knowledgebases_by_name", async (req, res) => {
+    // gets knowledge bases by name
+    // expects name in req.body
+    const { data, error } = await supabase.from("knowledge_base")
+        .select("*")
+        .ilike("name", `%${req.body.name}%`); // case insensitive search
+    if (error) {
+        res.status(500).json({
+            message: "Error finding knowledge bases"
+        })
+    }
+    else {
+        res.status(200).json({
+            data
+        })
+    }
+})
+
+router.get("/get_knowledgebases_in_date_range", async (req, res) => {
+    // gets knowledgebases within a specified date range
+    // expects start_date and end_date in req.body
+    // start_date and end_date should be of the form: yyyy-mm-dd
+    const { data, error } = await supabase.from("knowledge_base")
+        .select("*")
+        .gte("created_at", req.body.start_date)
+        .lte("created_at", req.body.end_date);
+    if (error) {
+        res.status(500).json({
+            message: "Error finding knowledge bases"
+        })
+    }
+    else {
+        res.status(200).json({
+            data
+        })
+    }
+
+})
+
 module.exports = router;

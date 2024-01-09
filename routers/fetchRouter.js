@@ -17,7 +17,6 @@ router.get("/get_sessions", async (req, res) => {
     }
 })
 
-
 router.get("/get_session_ideas", async (req, res) => {
     // gets all ideas in a brainstorm session
     // expects session_id in req.body
@@ -58,6 +57,39 @@ router.get("/get_idea_comments", async (req, res) => {
         console.log(error);
         res.status(500).json({
             message: "Error fetching idea comments"
+        });
+    } else {
+        res.status(200).json({
+            data
+        })
+    }
+})
+
+router.get("/get_knowledgebases", async (req, res) => {
+    // gets all knowledge bases
+    const { data, error } = await supabase.from("knowledge_base").select("*");
+    if (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Error fetching knowledge bases"
+        });
+    } else {
+        res.status(200).json({
+            data
+        })
+    }
+})
+
+router.get("/get_knowledgebase_ideas", async (req, res) => {
+    // gets all ideas within a knowledge base
+    // expects knowledgebase_id in req.body
+    const { data, error } = await supabase.from("knowledge_idea_join")
+        .select("idea(*)")
+        .eq("knowledgebase", req.body.knowledgebase_id);
+    if (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Error fetching knowledge base ideas"
         });
     } else {
         res.status(200).json({
