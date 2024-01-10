@@ -11,6 +11,7 @@ const fetchRouter = require("./routers/fetchRouter");
 const searchRouter = require("./routers/searchRouter");
 const knowledgebaseRouter = require("./routers/knowledgebaseRouter");
 const profileRouter = require("./routers/profileRouter");
+const votingRouter = require("./routers/votingRouter");
 const {validateSession} = require("./middleware/auth");
 
 const app = express();
@@ -26,6 +27,7 @@ app.use("/idea", validateSession, ideaRouter);
 app.use("/comment", validateSession, commentRouter);
 app.use("/knowledgebase", validateSession, knowledgebaseRouter); 
 app.use("/profile", validateSession, profileRouter);
+app.use("/vote", votingRouter);
 // Reading requires no authentication
 app.use("/", fetchRouter);
 app.use("/search", searchRouter);
