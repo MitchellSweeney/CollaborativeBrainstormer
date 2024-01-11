@@ -98,4 +98,63 @@ router.get("/get_knowledgebases_in_date_range", async (req, res) => {
 
 })
 
+router.get("/get_new_trending_sessions", async (req, res) => {
+    // trending criteria: session created today with
+    // a vote count greater than equal to vote_criteria
+
+    const date1 = new Date();
+    const date2 = new Date();
+    date1.setDate(date1.getDate() - 1) // yesterday
+    date2.setDate(date2.getDate() + 1) // tomorrow
+    const dateString1 = date1.toISOString();
+    const dateString2 = date2.toISOString();
+
+    const vote_criteria = 10;
+
+    const { data, error } = await supabase.from("brainstorm_session")
+        .select("*")
+        .gte("created_at", dateString1)
+        .lte("created_at", dateString2)
+        .gte("votes", vote_criteria);
+
+    if (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Error getting trending sessions"
+        })
+    }
+    else {
+        res.status(200).json({
+            data
+        })
+    }
+})
+
+router.get("/get_most_voted_sessions", async (req, res) => {
+    // gets the sessions with the most votes (of all time)
+    // minimum vote cutoff can be set.
+    // number of sessions to return can be set
+
+    const cutoff_criteria = 20; // min vote cutoff
+    const max_session_count = 10; // max number of sessions 
+
+    const { data, error } = await supabase.from("brainstorm_session")
+        .select("*")
+        .gte("votes", cutoff_criteria)
+        .limit(max_session_count)
+        .order('votes', { ascending: false }); // highest to lowest order returned
+
+    if (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Error getting sessions"
+        })
+    }
+    else {
+        res.status(200).json({
+            data
+        })
+    }
+})
+
 module.exports = router;

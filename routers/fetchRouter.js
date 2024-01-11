@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/get_sessions", async (req, res) => {
-    // ges all brainstorm sessions
+    // gets all brainstorm sessions
     const { data, error } = await supabase.from("brainstorm_session").select("*");
     if (error) {
         console.log(error);

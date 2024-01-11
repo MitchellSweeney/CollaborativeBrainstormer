@@ -16,6 +16,7 @@ const validateSession = async function (req, res, next) {
     }
 };
 const verifyResourceOwnership = async function (resource_name, resource_id) {
+    // middleware that checks if requested resource belongs to requestor
     const user_id = (await supabase.auth.getUser()).data.user.id;
     console.log(resource_name, resource_id);
     let { data: resouce_name, error } = await supabase

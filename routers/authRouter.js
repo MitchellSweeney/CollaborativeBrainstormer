@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
+    // expects email and password in req.body
+    // auth handled by supabase
     let { data, error } = await supabase.auth.signUp({
         email: req.body.email,
         password: req.body.password
@@ -20,6 +22,7 @@ router.post("/signup", async (req, res) => {
 })
 
 router.post("/signin", async (req, res) => {
+    // expects email and password in req.body
     let { data, error } = await supabase.auth.signInWithPassword({
         email: req.body.email,
         password: req.body.password

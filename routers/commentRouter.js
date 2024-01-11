@@ -38,7 +38,7 @@ router.post("/post_idea_comment", async (req, res) => {
            Assuming req.body looks like this:
            {
                idea_id,
-               comment (comment on session)
+               comment (comment on idea)
            }
        */
     const user_id = (await supabase.auth.getUser())?.data?.user?.id;
