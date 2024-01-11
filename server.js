@@ -42,10 +42,8 @@ Stuff done:
 6) Knowledge base CRUD 
 7) Get logged in users created sessions, ideas, comments, knowledge bases
 8) resource ownership validation middleware
-
-Todo: 
-- Voting system for sessions and ideas
-- insert image/audio/video in idea (?)
+9) Voting system for sessions and ideas
+10) File upload for ideas
 */
 
 
